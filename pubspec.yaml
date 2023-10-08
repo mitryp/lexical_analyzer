@@ -1,0 +1,16 @@
+name: lexical_analyzer2
+description: A lexical analyzer for System Programming course at NaUKMA.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.1.0
+
+dependencies:
+  lex:
+    git: https://github.com/mitryp/dart_lex
+
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
