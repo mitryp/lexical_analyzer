@@ -40,5 +40,7 @@ void main() {
     source: test,
   );
 
-  wrapper.forEach(print);
+  print(test);
+
+  print(wrapper.analyze());
 }

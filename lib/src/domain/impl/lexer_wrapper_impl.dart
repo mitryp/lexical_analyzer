@@ -33,6 +33,25 @@ class LexerWrapperImpl extends LexerWrapper {
         _tokenFilter,
         _tokenProcessor,
       );
+
+  @override
+  ({List<LexerToken> tokens, Map<String, int> identifiers}) analyze() {
+    final identifiers = <String, int>{};
+    final tokens = <LexerToken>[];
+
+    final iterator = _LexerTokenIterator(
+      _lexer.getTokensUnprocessed(_textPreprocessor(_source)),
+      _tokenFilter,
+      _tokenProcessor,
+      identifiers: identifiers,
+    );
+
+    while (iterator.moveNext()) {
+      tokens.add(iterator.current);
+    }
+
+    return (tokens: tokens, identifiers: identifiers);
+  }
 }
 
 class _LexerTokenIterator implements Iterator<LexerToken> {
@@ -41,13 +60,18 @@ class _LexerTokenIterator implements Iterator<LexerToken> {
   final TokenProcessor _processor;
   int _pos = -1;
 
-  final Map<String, int> _identifiers = {};
+  final Map<String, int> _identifiers;
 
   LexerToken? _cache;
   int _cachePos = -1;
 
-  _LexerTokenIterator(Iterable<UnprocessedToken> tokens, this._filter, this._processor)
-      : _tokens = tokens.toList(growable: false);
+  _LexerTokenIterator(
+    Iterable<UnprocessedToken> tokens,
+    this._filter,
+    this._processor, {
+    Map<String, int>? identifiers,
+  })  : _tokens = tokens.toList(growable: false),
+        _identifiers = identifiers ?? {};
 
   int get _length => _tokens.length;
 

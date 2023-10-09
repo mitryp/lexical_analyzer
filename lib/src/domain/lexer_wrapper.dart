@@ -9,8 +9,6 @@ import 'lexer_token.dart';
 abstract class LexerWrapper extends IterableMixin<LexerToken> {
   const LexerWrapper();
 
-  Iterator<LexerToken> call() => iterator;
-
   factory LexerWrapper.forLexer({
     required String source,
     required Lexer lexer,
@@ -18,4 +16,6 @@ abstract class LexerWrapper extends IterableMixin<LexerToken> {
     Predicate<TokenType> tokenFilter,
     TokenProcessor tokenProcessor,
   }) = LexerWrapperImpl.new;
+
+  ({List<LexerToken> tokens, Map<String, int> identifiers}) analyze();
 }
