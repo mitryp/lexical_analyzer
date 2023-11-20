@@ -6,14 +6,15 @@ class ParseRule {
   final String pattern;
   final TokenType tokenType;
   final List<String> newStates;
+  final RegExpFlags? flags;
 
-  const ParseRule(this.tokenType, this.pattern, {this.newStates = const []});
+  const ParseRule(this.tokenType, this.pattern, {this.newStates = const [], this.flags});
 
   const ParseRule.include(String ruleName) : this(Token.IncludeOtherParse, ruleName);
 
   factory ParseRule.byGroups(String pattern, List<TokenType> tokenTypes) = GroupParseRule.new;
 
-  Parse toParse() => Parse(pattern, tokenType, newStates);
+  Parse toParse() => Parse(pattern, tokenType, newStates, flags);
 }
 
 class GroupParseRule extends ParseRule {
